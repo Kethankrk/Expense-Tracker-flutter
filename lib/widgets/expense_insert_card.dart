@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:expense_tracker/widgets/data_class.dart';
@@ -5,7 +7,10 @@ import 'package:expense_tracker/widgets/data_class.dart';
 final formatter = DateFormat.yMd();
 
 class ExpenseAddModal extends StatefulWidget {
-  const ExpenseAddModal({super.key});
+  const ExpenseAddModal(
+      {super.key, required this.addExpense});
+
+  final void Function(ExpenseData) addExpense;
 
   @override
   State<ExpenseAddModal> createState() {
@@ -38,6 +43,33 @@ class _ExpenseAddModalState extends State<ExpenseAddModal> {
     setState(() {
       _pickedDateTime = pickedDate;
     });
+  }
+
+  void submitHandle() {
+    if (_title.text.trim() == "" ||
+        double.parse(_amount.text) <= 0 ||
+        _pickedDateTime == null) {
+      showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                title: const Text('Invalid Input'),
+                content: const Text(
+                    'Please make sure all the field are filled with proper data!'),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Ok'))
+                ],
+              ));
+      return;
+    }
+
+    widget.addExpense(ExpenseData(_title.text, double.parse(_amount.text),
+        _pickedDateTime!, _selectedCategory));
+
+    Navigator.pop(context);
   }
 
   @override
@@ -113,7 +145,8 @@ class _ExpenseAddModalState extends State<ExpenseAddModal> {
               const SizedBox(
                 width: 20,
               ),
-              ElevatedButton(onPressed: () {}, child: const Text('Submit'))
+              ElevatedButton(
+                  onPressed: submitHandle, child: const Text('Submit'))
             ],
           )
         ],

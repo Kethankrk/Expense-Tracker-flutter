@@ -15,11 +15,31 @@ class ExpenseData {
   String get getFormatedDate {
     return formatter.format(dateTime);
   }
+
+  Map<String, dynamic> get toJson{
+    return {
+      'title' : title,
+      'expense' : expense,
+      'dateTime': dateTime.toString(),
+      'category' : category.toString()
+    };
+  }
+
+
+  factory ExpenseData.fromJson(Map<String, dynamic> json){
+    Categories strinTocustomEnums(String value){
+    switch (value){
+      case 'Categories.food':
+        return Categories.food;
+      case 'Categories.work':
+        return Categories.work;
+      case 'Categories.leisure':
+        return Categories.leisure;
+      default:
+        return Categories.travel;
+    }
+  }
+    return ExpenseData(json['title'], json['expense'], DateTime.parse(json['dateTime']), strinTocustomEnums(json['category']));
+  }
 }
 
-var expenseList = [
-  ExpenseData('milk', 28.5, DateTime.now(), Categories.food),
-  ExpenseData('Rice', 100, DateTime.now(), Categories.food),
-  ExpenseData('Biscut', 32.5, DateTime.now(), Categories.food),
-  ExpenseData('Meat', 210, DateTime.now(), Categories.food),
-];

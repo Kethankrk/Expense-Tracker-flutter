@@ -22,7 +22,7 @@ class CardList extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  "₹${expense.toString()}",
+                  "₹ ${expense.toString()}",
                 ),
                 const Spacer(),
                 Text(time)
