@@ -70,98 +70,106 @@ class _ExpenseAddModalState extends State<ExpenseAddModal> {
 
   @override
   Widget build(context) {
+    final paddingValue = MediaQuery.viewInsetsOf(context).bottom;
     return Container(
+      height: double.infinity,
       color: const Color.fromARGB(255, 26, 26, 26),
       child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextField(
-              style: const TextStyle(color: Colors.white),
-              maxLength: 50,
-              decoration: const InputDecoration(
-                  label: Text("Title", style: TextStyle(color: Colors.white)),
-                  hintText: "Travel expense",
-                  hintStyle:
-                      TextStyle(color: Color.fromARGB(179, 192, 192, 192))),
-              controller: _title,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    style: const TextStyle(color: Colors.white),
-                    keyboardType: TextInputType.number,
-                    controller: _amount,
-                    decoration: const InputDecoration(
-                      label: Text(
-                        'Amount',
-                        style: TextStyle(color: Colors.white),
+        padding:
+            EdgeInsets.only(left: 20, right: 20, top: 20, bottom: paddingValue),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextField(
+                style: const TextStyle(color: Colors.white),
+                maxLength: 50,
+                decoration: const InputDecoration(
+                    label: Text("Title", style: TextStyle(color: Colors.white)),
+                    hintText: "Travel expense",
+                    hintStyle:
+                        TextStyle(color: Color.fromARGB(179, 192, 192, 192))),
+                controller: _title,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      style: const TextStyle(color: Colors.white),
+                      keyboardType: TextInputType.number,
+                      controller: _amount,
+                      decoration: const InputDecoration(
+                        label: Text(
+                          'Amount',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        prefix: Text('₹ ', style: TextStyle(color: Colors.white)),
                       ),
-                      prefix: Text('₹ ', style: TextStyle(color: Colors.white)),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                          _pickedDateTime == null
-                              ? 'No date selected'
-                              : formatter.format(_pickedDateTime!),
-                          style: const TextStyle(color: Colors.white)),
-                      IconButton(
-                        onPressed: _openDatePicker,
-                        icon: const Icon(Icons.calendar_month,
-                            color: Colors.white),
-                      )
-                    ],
+                  const SizedBox(
+                    width: 20,
                   ),
-                )
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            DropdownButton(
-                style: const TextStyle(color: Colors.white),
-                dropdownColor: const Color.fromARGB(255, 29, 29, 29),
-                value: _selectedCategory,
-                items: Categories.values
-                    .map((e) => DropdownMenuItem(
-                          value: e,
-                          child: Text(
-                            e.name,
-                          ),
-                        ))
-                    .toList(),
-                onChanged: (val) {
-                  if (val == null) return;
-                  setState(() {
-                    _selectedCategory = val;
-                  });
-                }),
-            Row(
-              children: [
-                OutlinedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text('Cancel')),
-                const SizedBox(
-                  width: 20,
-                ),
-                ElevatedButton(
-                    onPressed: submitHandle, child: const Text('Submit'))
-              ],
-            )
-          ],
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                            _pickedDateTime == null
+                                ? 'No date selected'
+                                : formatter.format(_pickedDateTime!),
+                            style: const TextStyle(color: Colors.white)),
+                        IconButton(
+                          onPressed: _openDatePicker,
+                          icon: const Icon(Icons.calendar_month,
+                              color: Colors.white),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              DropdownButton(
+                  style: const TextStyle(color: Colors.white),
+                  dropdownColor: const Color.fromARGB(255, 29, 29, 29),
+                  value: _selectedCategory,
+                  items: Categories.values
+                      .map((e) => DropdownMenuItem(
+                            value: e,
+                            child: Text(
+                              e.name,
+                            ),
+                          ))
+                      .toList(),
+                  onChanged: (val) {
+                    if (val == null) return;
+                    setState(() {
+                      _selectedCategory = val;
+                    });
+                  }),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  OutlinedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Cancel')),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  ElevatedButton(
+                      onPressed: submitHandle, child: const Text('Submit'))
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
